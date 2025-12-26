@@ -1,0 +1,10 @@
+{
+    "buildpacks": [
+        {
+            "url": "https://github.com/render-oss/nodejs-buildpack"
+        },
+        {
+            "url": "https://github.com/render-oss/java-buildpack"
+        }
+    ]
+}

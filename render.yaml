@@ -2,9 +2,8 @@ services:
   # Web Service (Spring Boot + React)
   - type: web
     name: library-management-system
-    env: java
-    buildCommand: chmod +x build.sh && ./build.sh
-    startCommand: java -jar target/demo-0.0.1-SNAPSHOT.jar
+    env: docker
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -24,7 +23,6 @@ services:
         value: false
       - key: ALLOWED_ORIGINS
         sync: false
-    healthCheckPath: /api/health
 
 databases:
   # PostgreSQL Database

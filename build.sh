@@ -5,6 +5,15 @@ echo "========================================="
 echo "Building Library Management System"
 echo "========================================="
 
+# Set up Java 17 environment for Render
+echo "Setting up Java environment..."
+export JAVA_HOME=/opt/render/project/.render/java/jdk-17
+export PATH=$JAVA_HOME/bin:$PATH
+
+# Verify Java version
+echo "Java version:"
+java -version
+
 # Build frontend
 echo "Step 1: Building React frontend..."
 cd frontend
