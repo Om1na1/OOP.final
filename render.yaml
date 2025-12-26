@@ -4,6 +4,7 @@ services:
     name: library-management-system
     env: docker
     dockerfilePath: ./Dockerfile
+    plan: free  # Explicitly use free tier
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -29,3 +30,4 @@ databases:
   - name: library-db
     databaseName: library_db
     user: library_user
+    plan: free  # Explicitly use free tier
