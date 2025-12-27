@@ -84,10 +84,10 @@ public class WebSecurityConfig {
 
                         // ✅ API rules
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/books/**").permitAll()
-                        .requestMatchers("/api/members/**").hasAnyRole("ADMIN", "LIBRARIAN")
-                        .requestMatchers("/api/transactions/**").hasAnyRole("ADMIN", "LIBRARIAN", "MEMBER")
-                        .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                        .requestMatchers("/api/books", "/api/books/**").permitAll()
+                        .requestMatchers("/api/members", "/api/members/**").hasAnyRole("ADMIN", "LIBRARIAN")
+                        .requestMatchers("/api/transactions", "/api/transactions/**").hasAnyRole("ADMIN", "LIBRARIAN", "MEMBER")
+                        .requestMatchers("/api/reports", "/api/reports/**").hasAnyRole("ADMIN", "LIBRARIAN")
 
                         // everything else requires auth
                         .anyRequest().authenticated()
