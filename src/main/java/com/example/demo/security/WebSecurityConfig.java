@@ -68,8 +68,12 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/", "/index.html",
                                 "/favicon.ico",
+                                "/manifest.json",
+                                "/logo192.png",
+                                "/logo512.png",
+                                "/robots.txt",
                                 "/error",
-                                "/css/**", "/js/**", "/images/**", "/assets/**"
+                                "/css/**", "/js/**", "/images/**", "/assets/**", "/static/**"
                         ).permitAll()
 
                         // ✅ Allow Swagger/OpenAPI (if enabled)
