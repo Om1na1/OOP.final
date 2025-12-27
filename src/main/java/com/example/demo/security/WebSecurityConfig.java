@@ -3,6 +3,7 @@ package com.example.demo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -20,6 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -59,7 +61,10 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // ✅ allow website root + static assets
+                        // ✅ Allow CORS preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // ✅ Allow website root + static assets
                         .requestMatchers(
                                 "/", "/index.html",
                                 "/favicon.ico",
@@ -67,15 +72,20 @@ public class WebSecurityConfig {
                                 "/css/**", "/js/**", "/images/**", "/assets/**"
                         ).permitAll()
 
-                        // ✅ (optional) allow Swagger if you use it
-                        // .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // ✅ Allow Swagger/OpenAPI (if enabled)
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
-                        // ✅ your API rules
+                        // ✅ Allow health checks (useful for deployment)
+                        .requestMatchers("/actuator/**").permitAll()
+
+                        // ✅ API rules
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/books/**").permitAll()
                         .requestMatchers("/api/members/**").hasAnyRole("ADMIN", "LIBRARIAN")
                         .requestMatchers("/api/transactions/**").hasAnyRole("ADMIN", "LIBRARIAN", "MEMBER")
                         .requestMatchers("/api/reports/**").hasAnyRole("ADMIN", "LIBRARIAN")
+
+                        // everything else requires auth
                         .anyRequest().authenticated()
                 );
 
@@ -84,6 +94,4 @@ public class WebSecurityConfig {
 
         return http.build();
     }
-
 }
-
